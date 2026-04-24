@@ -1,0 +1,21 @@
+export type PlatformSettings = {
+    app_name: string;
+    app_tagline: string | null;
+    logo_url: string;
+    icon_url: string;
+    favicon_url: string;
+    color_primary: string;
+    color_secondary: string;
+    color_accent: string;
+    login_bg_from: string;
+    login_bg_to: string;
+    login_tagline: string | null;
+    contact_email: string | null;
+    support_url: string | null;
+    terms_url: string | null;
+    privacy_url: string | null;
+    social_facebook: string | null;
+    social_instagram: string | null;
+    social_linkedin: string | null;
+    social_youtube: string | null;
+};

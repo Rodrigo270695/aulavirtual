@@ -1,0 +1,439 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+
+/* dark: solo actúa si el HTML tiene la clase .dark — como nunca la ponemos, dark mode queda desactivado globalmente */
+@custom-variant dark (&:is(.dark *));
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Paleta de marca inspirada en el logo Orvae:
+     Navy   #0d1b6e  →  oklch(0.24 0.17 272)
+     Blue   #1a56db  →  oklch(0.47 0.22 261)
+     Bright #35a0ff  →  oklch(0.65 0.19 240)
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+    /* Superficie */
+    --background: oklch(0.99 0 0);
+    --foreground: oklch(0.18 0.06 272);          /* navy text */
+
+    /* Cards */
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.18 0.06 272);
+
+    /* Popover */
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.18 0.06 272);
+
+    /* Primary: azul de marca */
+    --primary: oklch(0.47 0.22 261);
+    --primary-foreground: oklch(0.99 0 0);
+
+    /* Secondary: azul suave */
+    --secondary: oklch(0.94 0.03 262);
+    --secondary-foreground: oklch(0.24 0.17 272);
+
+    /* Muted */
+    --muted: oklch(0.96 0.015 262);
+    --muted-foreground: oklch(0.50 0.06 265);
+
+    /* Accent */
+    --accent: oklch(0.93 0.04 262);
+    --accent-foreground: oklch(0.24 0.17 272);
+
+    /* Destructive */
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.977 0 0);
+
+    /* Bordes / inputs */
+    --border: oklch(0.90 0.02 262);
+    --input: oklch(0.90 0.02 262);
+    --ring: oklch(0.65 0.19 240);
+
+    /* Charts */
+    --chart-1: oklch(0.47 0.22 261);
+    --chart-2: oklch(0.65 0.19 240);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+
+    --radius: 0.625rem;
+
+    /* Sidebar – blanco puro con acentos azules */
+    --sidebar: oklch(1 0 0);                           /* blanco puro */
+    --sidebar-foreground: oklch(0.35 0.06 265);        /* slate-600 */
+    --sidebar-primary: oklch(0.47 0.22 261);           /* azul de marca */
+    --sidebar-primary-foreground: oklch(0.99 0 0);     /* blanco */
+    --sidebar-accent: oklch(0.96 0.015 240);           /* hover muy suave */
+    --sidebar-accent-foreground: oklch(0.22 0.09 272); /* navy oscuro */
+    --sidebar-border: oklch(0.92 0.015 262);           /* borde sutil */
+    --sidebar-ring: oklch(0.65 0.19 240);
+}
+
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* ─── Collapsible slide animation (Radix uses CSS vars for height) ──────── */
+@theme {
+    --animate-collapsible-down: collapsible-down 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    --animate-collapsible-up:   collapsible-up   180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes collapsible-down {
+    from { height: 0; opacity: 0; }
+    to   { height: var(--radix-collapsible-content-height); opacity: 1; }
+}
+
+@keyframes collapsible-up {
+    from { height: var(--radix-collapsible-content-height); opacity: 1; }
+    to   { height: 0; opacity: 0; }
+}
+
+/* ─── Cursor pointer global en todos los elementos interactivos ─────────── */
+button,
+[role="button"],
+[type="button"],
+[type="submit"],
+[type="reset"],
+label[for],
+select,
+summary {
+    cursor: pointer;
+}
+
+/* ─── Oculta la barra de scroll vertical del sidebar sin perder el scroll ── */
+[data-sidebar="content"] {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+[data-sidebar="content"]::-webkit-scrollbar {
+    display: none;
+}
+
+/* ─── Oculta scrollbars en strips horizontales de cards ─────────────────── */
+.scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+
+/* ─── HeroUI Toast — CSS propio con tokens del proyecto ─────────────────── */
+/* El CSS oficial de HeroUI usa @apply con sus propios tokens (bg-surface,    */
+/* shadow-overlay, etc.) que no existen en nuestro setup. Redefinimos las     */
+/* clases BEM que HeroUI genera usando CSS estándar + nuestras variables.     */
+
+/* Region: contenedor fixed de todos los toasts
+   La posición por defecto es top-end (nuestra configuración global).
+   Si la clase de placement no se aplica (p.ej. durante un redirect de Inertia),
+   el toast sigue apareciendo en la posición correcta.
+   top: 4.5rem = header sticky (h-14 = 3.5rem) + 1rem de separación          */
+.toast-region {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    outline: none;
+    width: calc(100vw - 2rem);
+    display: block;
+    /* Fallback = top-end para no salir a top:0 sin clase de placement */
+    top: 3rem;
+    right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .toast-region {
+        width: auto;
+        min-width: 380px;
+    }
+}
+
+/* Las clases de placement sobrescriben el fallback si están presentes */
+.toast-region--bottom-end   { top: auto; bottom: 1rem; right: 1rem;    left: auto;  transform: none; }
+.toast-region--bottom-start { top: auto; bottom: 1rem; left: 1rem;     right: auto; transform: none; }
+.toast-region--bottom       { top: auto; bottom: 1rem; left: 50%;      right: auto; transform: translateX(-50%); }
+.toast-region--top-end      { top: 3rem; right: 1.25rem; bottom: auto; left: auto; transform: none; }
+.toast-region--top-start    { top: 3rem; left: 1.25rem;  bottom: auto; right: auto; transform: none; }
+.toast-region--top          { top: 3rem; left: 50%;      bottom: auto; right: auto; transform: translateX(-50%); }
+
+/* Toast individual
+   Anclado a top:0 para que el toast crezca hacia ABAJO cuando el texto es largo.
+   Si usáramos bottom:0, el toast crecería hacia arriba y su borde superior
+   subiría por encima del borde de la región (top:4.5rem), dando la ilusión de
+   "poco padding superior" cuando en realidad el toast está saliendo de la región. */
+.toast {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.625rem;
+    border-radius: 0.875rem;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-left: 3px solid oklch(0.75 0.04 262); /* fallback neutro, se sobreescribe por variante */
+    padding: 0.875rem 1rem 0.875rem 0.875rem;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.10), 0 2px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.toast:not([data-frontmost="true"]) {
+    pointer-events: none;
+    height: var(--front-height);
+    overflow: hidden;
+}
+
+.toast[data-hidden="true"] {
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Estructura interna */
+.toast__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-self: center;
+}
+
+.toast__indicator {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0.125rem;
+    color: var(--muted-foreground);
+}
+
+.toast__indicator [data-slot="toast-default-icon"] {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.toast__title {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    font-weight: 600;
+    color: oklch(0.18 0.06 272);
+}
+
+.toast__description {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+    color: oklch(0.50 0.06 265);
+    margin-top: 0.125rem;
+}
+
+/* Botón de cierre */
+.toast__close-button {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid oklch(0.90 0.02 262);
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 150ms ease, background 150ms ease;
+}
+
+.toast__close-button [data-slot="close-button-icon"] {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: oklch(0.50 0.06 265);
+}
+
+@media (min-width: 640px) {
+    .toast__close-button {
+        pointer-events: none;
+        top: -0.375rem;
+        right: -0.375rem;
+        border: 1px solid oklch(0.90 0.02 262);
+        opacity: 0;
+    }
+
+    .toast[data-frontmost="true"]:hover .toast__close-button {
+        pointer-events: auto;
+        opacity: 1;
+    }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Variantes de color
+   Patrón uniforme: borde izquierdo de acento + ícono en color de variante.
+   El título usa SIEMPRE el mismo color oscuro neutro (no se colorea por variante)
+   para máxima legibilidad y consistencia visual.
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* Éxito — verde */
+.toast--success {
+    border-left-color: oklch(0.52 0.18 152);
+    background: oklch(0.99 0.008 152);
+}
+.toast--success .toast__indicator { color: oklch(0.52 0.18 152); }
+
+/* Error / peligro — rojo */
+.toast--danger {
+    border-left-color: oklch(0.577 0.245 27);
+    background: oklch(0.99 0.008 27);
+}
+.toast--danger  .toast__indicator { color: oklch(0.577 0.245 27); }
+
+/* Advertencia — ámbar */
+.toast--warning {
+    border-left-color: oklch(0.72 0.18 72);
+    background: oklch(0.995 0.008 72);
+}
+.toast--warning .toast__indicator { color: oklch(0.65 0.20 72); }
+
+/* Acento — primario */
+.toast--accent {
+    border-left-color: var(--primary);
+    background: oklch(0.99 0.008 264);
+}
+.toast--accent  .toast__indicator { color: var(--primary); }
+
+/* El título siempre oscuro neutro — igual en todas las variantes */
+.toast--success .toast__title,
+.toast--danger  .toast__title,
+.toast--warning .toast__title,
+.toast--accent  .toast__title {
+    color: oklch(0.18 0.06 272);
+}
+
+/* Animaciones de entrada/salida */
+@keyframes toast-slide-bottom-in {
+    from { translate: 0 100%; opacity: 0; }
+}
+
+@keyframes toast-slide-bottom-out {
+    to { translate: 0 100%; opacity: 0; }
+}
+
+@keyframes toast-slide-top-in {
+    from { translate: 0 -12px; opacity: 0; }
+}
+
+@keyframes toast-slide-top-out {
+    to { translate: 0 -12px; opacity: 0; }
+}
+
+.toast--bottom,
+.toast--bottom-start,
+.toast--bottom-end { view-transition-class: toast-bottom; }
+
+.toast--top,
+.toast--top-start,
+.toast--top-end { view-transition-class: toast-top; }
+
+::view-transition-new(.toast-bottom):only-child {
+    animation: toast-slide-bottom-in 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(.toast-bottom):only-child {
+    animation: toast-slide-bottom-out 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+::view-transition-new(.toast-top):only-child {
+    animation: toast-slide-top-in 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+::view-transition-old(.toast-top):only-child {
+    animation: toast-slide-top-out 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Marketplace hero — animaciones ligeras (clase / arbitrary animation en TSX) */
+@keyframes marketplace-hero-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes marketplace-hero-shimmer {
+    0% {
+        transform: translateX(-130%) skewX(-14deg);
+        opacity: 0;
+    }
+    12% {
+        opacity: 0.45;
+    }
+    100% {
+        transform: translateX(260%) skewX(-14deg);
+        opacity: 0;
+    }
+}
+
