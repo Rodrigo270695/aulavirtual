@@ -10,6 +10,7 @@ import { DataTable } from '@/components/admin/data-table';
 import { PageHeader } from '@/components/admin/page-header';
 import { dashboard } from '@/routes';
 import * as certificatesRoute from '@/routes/admin/certificates';
+import verificationsRoute from '@/routes/admin/certificates/verifications';
 import type {
     AdminCertificateVerificationRow,
     CertificateVerificationLogCertificate,
@@ -56,7 +57,7 @@ export default function CertificateVerificationsIndex({ certificate, verificatio
             delete next.search;
         }
 
-        router.get(certificatesRoute.verifications.index.url({ certificate: certificate.id }), next, {
+        router.get(verificationsRoute.index.url({ certificate: certificate.id }), next, {
             preserveState: true,
             preserveScroll: true,
             replace: true,
@@ -70,7 +71,7 @@ export default function CertificateVerificationsIndex({ certificate, verificatio
             delete next.search;
         }
 
-        router.get(certificatesRoute.verifications.index.url({ certificate: certificate.id }), next, {
+        router.get(verificationsRoute.index.url({ certificate: certificate.id }), next, {
             preserveState: true,
             preserveScroll: true,
         });
@@ -202,7 +203,7 @@ CertificateVerificationsIndex.layout = (pageProps: Props) => ({
         { title: 'Certificados emitidos', href: certificatesRoute.index.url() },
         {
             title: `Consultas · ${pageProps.certificate.verification_code}`,
-            href: certificatesRoute.verifications.index.url({ certificate: pageProps.certificate.id }),
+            href: verificationsRoute.index.url({ certificate: pageProps.certificate.id }),
         },
     ],
 });
