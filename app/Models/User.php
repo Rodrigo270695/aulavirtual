@@ -69,6 +69,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Correos de cuentas base que no deben alterarse en entornos demo.
+     *
+     * @var list<string>
+     */
+    public const IMMUTABLE_DEMO_EMAILS = [
+        'superadmin@aulavirtual.com',
+    ];
+
+    /**
      * Números de documento que no deben alterarse (cuenta de demo / producción protegida).
      *
      * @var list<string>
@@ -91,9 +100,24 @@ class User extends Authenticatable
         return in_array($n, self::IMMUTABLE_DEMO_DOCUMENT_NUMBERS, true);
     }
 
+    /**
+     * Indica si el correo corresponde a una cuenta base inmutable en demos.
+     */
+    public static function isImmutableDemoEmail(?string $email): bool
+    {
+        $normalized = $email !== null ? strtolower(trim($email)) : '';
+
+        if ($normalized === '') {
+            return false;
+        }
+
+        return in_array($normalized, self::IMMUTABLE_DEMO_EMAILS, true);
+    }
+
     public function isImmutableDemoAccount(): bool
     {
-        return self::isImmutableDemoDocument($this->document_number);
+        return self::isImmutableDemoEmail($this->email)
+            || self::isImmutableDemoDocument($this->document_number);
     }
 
     /**

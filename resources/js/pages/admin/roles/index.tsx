@@ -26,6 +26,8 @@ interface Props {
     can: RoleCan;
 }
 
+const PROTECTED_ROLE_NAMES = ['superadmin', 'student', 'instructor'];
+
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default function RolesIndex({ roles, permissions, filters, can }: Props) {
@@ -180,8 +182,8 @@ export default function RolesIndex({ roles, permissions, filters, can }: Props) 
                     onEdit={() => openEdit(row)}
                     onDelete={() => openDelete(row)}
                     canPermissions={can.permissions}
-                    canEdit={can.edit}
-                    canDelete={can.delete && !['superadmin', 'student'].includes(row.name)}
+                    canEdit={can.edit && !PROTECTED_ROLE_NAMES.includes(row.name)}
+                    canDelete={can.delete && !PROTECTED_ROLE_NAMES.includes(row.name)}
                     variant="icon"
                     className="justify-end"
                 />
@@ -193,8 +195,8 @@ export default function RolesIndex({ roles, permissions, filters, can }: Props) 
                     onEdit={() => openEdit(row)}
                     onDelete={() => openDelete(row)}
                     canPermissions={can.permissions}
-                    canEdit={can.edit}
-                    canDelete={can.delete && !['superadmin', 'student'].includes(row.name)}
+                    canEdit={can.edit && !PROTECTED_ROLE_NAMES.includes(row.name)}
+                    canDelete={can.delete && !PROTECTED_ROLE_NAMES.includes(row.name)}
                     variant="labeled"
                 />
             ),

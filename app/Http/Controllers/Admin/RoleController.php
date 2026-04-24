@@ -22,7 +22,7 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     /** Roles del sistema que no se pueden editar ni eliminar */
-    private const PROTECTED_ROLES = ['superadmin', 'student'];
+    private const PROTECTED_ROLES = ['superadmin', 'student', 'instructor'];
 
     // ── Índice ────────────────────────────────────────────────────────────────
 
